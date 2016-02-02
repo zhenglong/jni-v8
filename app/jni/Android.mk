@@ -14,12 +14,13 @@ include $(PREBUILT_STATIC_LIBRARY)
 LOCAL_PATH := $(MY_LOCAL_PATH)
 include $(CLEAR_VARS)
 LOCAL_MODULE := hello-jni
-LOCAL_SRC_FILES := MyWrapper.cpp wrapper.cpp my-jni-cpp
+LOCAL_SRC_FILES := MyWrapper.cpp wrapper.cpp my-jni.cpp
 LOCAL_SHARED_LIBRARIES := libv8
 LOCAL_STATIC_LIBRARIES := libv8_libplatform
 LOCAL_CPPFLAGS := \
 	-Wall \
 	-Wextra \
+	-fPIC \
 	-fvisibility=hidden \
 	-std=c++11 \
 	-fexceptions \
@@ -35,6 +36,7 @@ LOCAL_SHARED_LIBRARIES := libv8 hello-jni
 LOCAL_CPPFLAGS := \
 	-Wall \
 	-Wextra \
+	-fPIC \
 	-fvisibility=hidden \
 	-std=c++11 \
 	-fexceptions \
