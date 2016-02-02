@@ -1,7 +1,7 @@
 #include <jni.h>
 #include <stdio.h>
 #include <stdlib.h>
-extern "C" jdouble Java_com_example_hellojni_HelloJni_add(JNIEnv *env, jobject instance, jdouble i, jdouble j);
+extern "C" jdouble JNICALL Java_com_example_hellojni_HelloJni_add(JNIEnv *env, jobject instance, jdouble i, jdouble j);
 
 int main(int argc, char* argv[]) {
     printf("%f\n", Java_com_example_hellojni_HelloJni_add(NULL, NULL, 1, 101));
