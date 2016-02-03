@@ -2,7 +2,7 @@
 #define MY_JNI_H
 
 #include <jni.h>
-#include "wrapper.h"
+#include "MyFoo.h"
 
 #ifdef __cplusplus
 extern "C" {

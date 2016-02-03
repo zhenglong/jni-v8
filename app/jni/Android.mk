@@ -1,4 +1,5 @@
 MY_LOCAL_PATH := $(call my-dir)
+
 LOCAL_PATH := $(MY_LOCAL_PATH)
 include $(CLEAR_VARS)
 LOCAL_MODULE := libv8
@@ -11,10 +12,10 @@ LOCAL_MODULE := libv8_libplatform
 LOCAL_SRC_FILES := ./third_parties/lib/libv8_libplatform.a
 include $(PREBUILT_STATIC_LIBRARY)
 
-LOCAL_PATH := $(MY_LOCAL_PATH)
+LOCAL_PATH := $(MY_LOCAL_PATH)/foo
 include $(CLEAR_VARS)
-LOCAL_MODULE := hello-jni
-LOCAL_SRC_FILES := MyWrapper.cpp wrapper.cpp my-jni.cpp
+LOCAL_MODULE := myfoo
+LOCAL_SRC_FILES := MyFoo.cpp
 LOCAL_SHARED_LIBRARIES := libv8
 LOCAL_STATIC_LIBRARIES := libv8_libplatform
 LOCAL_CPPFLAGS := \
@@ -25,9 +26,27 @@ LOCAL_CPPFLAGS := \
 	-std=c++11 \
 	-fexceptions \
 	-frtti
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/third_parties $(LOCAL_PATH)/third_parties/include
+LOCAL_C_INCLUDES := $(MY_LOCAL_PATH)/third_parties $(MY_LOCAL_PATH)/third_parties/include
 include $(BUILD_SHARED_LIBRARY)
 
+$(info $(MY_LOCAL_PATH))
+LOCAL_PATH := $(MY_LOCAL_PATH)
+include $(CLEAR_VARS)
+LOCAL_MODULE := hello-jni
+LOCAL_SRC_FILES := my-jni.cpp
+LOCAL_SHARED_LIBRARIES := myfoo
+LOCAL_CPPFLAGS := \
+	-Wall \
+	-Wextra \
+	-fPIC \
+	-fvisibility=hidden \
+	-std=c++11 \
+	-fexceptions \
+	-frtti
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/foo
+include $(BUILD_SHARED_LIBRARY)
+
+$(info $(MY_LOCAL_PATH))
 LOCAL_PATH := $(MY_LOCAL_PATH)
 include $(CLEAR_VARS)
 LOCAL_MODULE := hello-jni-test
