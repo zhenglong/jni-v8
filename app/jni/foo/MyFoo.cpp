@@ -52,8 +52,8 @@ double MyFoo::bar(double i, double j) {
         Handle<Script> script = Script::Compile(source);
         script->Run();
         Handle<Value> args[2];
-        AddNumberToArguments(isolate, 1, args, 0);
-        AddNumberToArguments(isolate, 100, args, 1);
+        AddNumberToArguments(isolate, i, args, 0);
+        AddNumberToArguments(isolate, j, args, 1);
         Handle<Value> js_result = CallJsFunction(isolate, context->Global(), "add", args, 2);
         Handle<Number> num = Handle<Number>::Cast(js_result);
         result = num->Value();

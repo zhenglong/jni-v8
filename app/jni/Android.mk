@@ -2,9 +2,21 @@ MY_LOCAL_PATH := $(call my-dir)
 
 LOCAL_PATH := $(MY_LOCAL_PATH)
 include $(CLEAR_VARS)
-LOCAL_MODULE := libv8
-LOCAL_SRC_FILES := ./third_parties/lib/libv8.so
-include $(PREBUILT_SHARED_LIBRARY)
+LOCAL_MODULE := libv8_libbase
+LOCAL_SRC_FILES := ./third_parties/lib/libv8_libbase.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+LOCAL_PATH := $(MY_LOCAL_PATH)
+include $(CLEAR_VARS)
+LOCAL_MODULE := libv8_base
+LOCAL_SRC_FILES := ./third_parties/lib/libv8_base.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+LOCAL_PATH := $(MY_LOCAL_PATH)
+include $(CLEAR_VARS)
+LOCAL_MODULE := libv8_nosnapshot
+LOCAL_SRC_FILES := ./third_parties/lib/libv8_nosnapshot.a
+include $(PREBUILT_STATIC_LIBRARY)
 
 LOCAL_PATH := $(MY_LOCAL_PATH)
 include $(CLEAR_VARS)
@@ -16,8 +28,7 @@ LOCAL_PATH := $(MY_LOCAL_PATH)/foo
 include $(CLEAR_VARS)
 LOCAL_MODULE := myfoo
 LOCAL_SRC_FILES := MyFoo.cpp
-LOCAL_SHARED_LIBRARIES := libv8
-LOCAL_STATIC_LIBRARIES := libv8_libplatform
+LOCAL_STATIC_LIBRARIES := libv8_base libv8_libplatform libv8_libbase libv8_nosnapshot 
 LOCAL_CPPFLAGS := \
 	-Wall \
 	-Wextra \
