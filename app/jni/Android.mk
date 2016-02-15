@@ -44,7 +44,7 @@ $(info $(MY_LOCAL_PATH))
 LOCAL_PATH := $(MY_LOCAL_PATH)
 include $(CLEAR_VARS)
 LOCAL_MODULE := hello-jni
-LOCAL_SRC_FILES := my-jni.cpp
+LOCAL_SRC_FILES := my-jni.cpp NativeHttpCallback.cpp
 LOCAL_SHARED_LIBRARIES := myfoo
 LOCAL_CPPFLAGS := \
 	-Wall \

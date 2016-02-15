@@ -1,23 +1,27 @@
 #include "my-jni.h"
+#include <string>
+#include "NativeHttpCallback.h"
+
+using namespace std;
 
 jobject createJavaHttpCallback(JNIEnv* env) {
     auto nativeHttpCallback = new NativeHttpCallback();
     string clsName = "com/example/hellojni/HttpCallback";
-    jobject cls = env->FindClass(env, clsName);
-    jmehotdID constructor = env->GetMethodID(env, cls, "<init>", "(J)V");
-    return env->NewObject(env, cls, constructor, reinterpret_cast<long>(nativeHttpCallback));
+    jclass cls = env->FindClass(clsName.c_str());
+    jmethodID constructor = env->GetMethodID(cls, "<init>", "(J)V");
+    return env->NewObject(cls, constructor, reinterpret_cast<long>(nativeHttpCallback));
 }
 
 void callJavaHttpGet(JNIEnv* env, const string& url) {
     string clsName = "com/example/hellojni/AndroidHttp";
     string methodName = "get";
     auto httpCallback = createJavaHttpCallback(env);
-    jobject cls = env->FindClass(env, clsName);
-    jmehotdID constructor = env->GetMethodID(env, cls, "<init>", "()V");
-    jmehotdID getMethod = env->GetMethodID(env, cls, methodName, "(Ljava/lang/String;Lcom/example/hellojni/HttpCallback;)V");
-    jobject inst = env->NewObject(env, cls, constructor);
-    jString s = env->NewStringUTF(env, url);
-    env->CallVoidMethod(env, inst, getMethod, s, httpCallback);
+    jclass cls = env->FindClass(clsName.c_str());
+    jmethodID constructor = env->GetMethodID(cls, "<init>", "()V");
+    jmethodID getMethod = env->GetMethodID(cls, methodName.c_str(), "(Ljava/lang/String;Lcom/example/hellojni/HttpCallback;)V");
+    jobject inst = env->NewObject(cls, constructor);
+    jstring s = env->NewStringUTF(url.c_str());
+    env->CallVoidMethod(inst, getMethod, s, httpCallback);
 }
 
 NativeHttpCallback* getNativeHttpCallback(long nativeRef) {
@@ -30,7 +34,8 @@ JNIEXPORT jdouble JNICALL Java_com_example_hellojni_HelloJni_add(JNIEnv* env, jo
     //return inst.bar(i, j);
     //
     
-
+	callJavaHttpGet(env, "http://www.test.com/api/foobar");
+	return 1;
 
     //
     // MyFoo* inst = create_myfoo();
@@ -58,7 +63,7 @@ extern "C"
 JNIEXPORT void JNICALL Java_com_example_hellojni_HttpCallback_native_1onSuccess
   (JNIEnv *env, jobject thiz, jlong nativeRef, jshort httpStatus, jstring data) {
     auto obj = getNativeHttpCallback(nativeRef);
-    auto dataStr = env->GetStringUTFChars(ENV, data, 0);
+    auto dataStr = env->GetStringUTFChars(data, 0);
     obj->onSuccess(httpStatus, dataStr);
-    env->ReleaseStringUTFChars(env, data, dataStr);
+    env->ReleaseStringUTFChars(data, dataStr);
 }

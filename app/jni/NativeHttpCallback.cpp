@@ -7,9 +7,9 @@
 
 #include "NativeHttpCallback.h"
 
-NativeHttpCallback::onNetworkError() {
+void NativeHttpCallback::onNetworkError() {
 }
 
-NativeHttpCallback::onSuccess(int httpStatus, const string& data) {
+void NativeHttpCallback::onSuccess(int httpStatus, const string& data) {
 }
 
