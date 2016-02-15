@@ -13,6 +13,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import android.util.Log;
 
 
 public class AndroidHttp {
@@ -23,21 +24,23 @@ public class AndroidHttp {
         mExecutor = new ThreadPoolExecutor(1, 20, 60, TimeUnit.SECONDS, workQueue);
     }
     public void get(final String urlString, final HttpCallback callback) {
+		Log.d("AndroidHttp", "url:" + urlString);
         mExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                try {
-                    URL url = new URL(urlString);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    int httpCode = conn.getResponseCode();
-                    BufferedInputStream iStream = new BufferedInputStream(conn.getInputStream());
-                    String response = getString(iStream, "UTF-8");
-                    callback.onSuccess((short)httpCode, response);
-                } catch (MalformedURLException ex) {
-                    callback.onNetworkError();
-                } catch (IOException ex) {
-                    callback.onNetworkError();
-                }
+                //try {
+                    //URL url = new URL(urlString);
+                    //HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    //int httpCode = conn.getResponseCode();
+                    //BufferedInputStream iStream = new BufferedInputStream(conn.getInputStream());
+                    //String response = getString(iStream, "UTF-8");
+                    //callback.onSuccess((short)httpCode, response);
+					callback.onSuccess((short)200, "{\"data\":\"from java\"}");
+                //} catch (MalformedURLException ex) {
+                //    callback.onNetworkError();
+                //} catch (IOException ex) {
+                //    callback.onNetworkError();
+                //}
             }
         });
     }

@@ -64,6 +64,7 @@ JNIEXPORT void JNICALL Java_com_example_hellojni_HttpCallback_native_1onSuccess
   (JNIEnv *env, jobject thiz, jlong nativeRef, jshort httpStatus, jstring data) {
     auto obj = getNativeHttpCallback(nativeRef);
     auto dataStr = env->GetStringUTFChars(data, 0);
+	LOGD("status: %d, data: %s", httpStatus, dataStr);
     obj->onSuccess(httpStatus, dataStr);
     env->ReleaseStringUTFChars(data, dataStr);
 }

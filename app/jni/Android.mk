@@ -55,6 +55,7 @@ LOCAL_CPPFLAGS := \
 	-fexceptions \
 	-frtti
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/foo
+LOCAL_LDLIBS := -L$(SYSROOT)/usr/lib -llog
 include $(BUILD_SHARED_LIBRARY)
 
 $(info $(MY_LOCAL_PATH))
