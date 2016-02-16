@@ -49,6 +49,7 @@ JNIEXPORT void JNICALL Java_com_example_hellojni_HttpCallback_nativeDestroy
   (JNIEnv *env, jobject thiz, jlong nativeRef) {
     auto obj = getNativeHttpCallback(nativeRef);
     delete obj;
+    LOGD("delete:%d", nativeRef);
 }
 
 
