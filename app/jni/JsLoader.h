@@ -12,7 +12,8 @@ using namespace std;
 
 class JsLoader {
     public:
-        string readFile(const string& path);
+		static jobject AssetManager;
+        string ReadFile(const string& path);
 };
 
 #endif /* !JSLOADER_H */

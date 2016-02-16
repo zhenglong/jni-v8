@@ -11,6 +11,11 @@
 extern "C" {
 #endif
 
+/*
+ * Class:     com_example_hellojni_HelloJni
+ * Method:    add
+ * Signature: (DD)D
+ */
 JNIEXPORT jdouble JNICALL Java_com_example_hellojni_HelloJni_add(JNIEnv *, jobject, jdouble, jdouble);
 
 /*
@@ -37,6 +42,21 @@ JNIEXPORT void JNICALL Java_com_example_hellojni_HttpCallback_native_1onNetworkE
 JNIEXPORT void JNICALL Java_com_example_hellojni_HttpCallback_native_1onSuccess
   (JNIEnv *, jobject, jlong, jshort, jstring);
 
+/*
+ * Class:     com_example_hellojni_HelloJni
+ * Method:    loadAssetManager
+ * Signature: (Landroid/content/res/AssetManager;)V
+ */
+JNIEXPORT void JNICALL Java_com_example_hellojni_HelloJni_loadAssetManager
+  (JNIEnv *, jobject, jobject);
+
+/*
+ * Class:     com_example_hellojni_HelloJni
+ * Method:    unloadAssetManager
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_example_hellojni_HelloJni_unloadAssetManager
+  (JNIEnv *, jobject);
 #ifdef __cplusplus
 }
 #endif

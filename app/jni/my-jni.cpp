@@ -1,6 +1,7 @@
 #include "my-jni.h"
 #include <string>
 #include "NativeHttpCallback.h"
+#include "JsLoader.h"
 
 using namespace std;
 
@@ -68,4 +69,19 @@ JNIEXPORT void JNICALL Java_com_example_hellojni_HttpCallback_native_1onSuccess
 	LOGD("status: %d, data: %s", httpStatus, dataStr);
     obj->onSuccess(httpStatus, dataStr);
     env->ReleaseStringUTFChars(data, dataStr);
+}
+
+extern "C"
+JNIEXPORT void JNICALL Java_com_example_hellojni_HelloJni_loadAssetManager
+	(JNIEnv *env, jobject thiz, jobject assetManager) {
+	JsLoader::AssetManager = env->newGlobalRef(assetManager);
+}
+
+extern "C"
+JNIEXPORT void JNICALL Java_com_example_hellojni_HelloJni_unloadAssetManager
+  (JNIEnv *env, jobject thiz) {
+	if (NULL != JsLoader::AssetManager) {
+		env->DeleteGlobalRef(JsLoader::AssetManager);
+		JJsLoader::AssetManager = NULL;
+	}
 }

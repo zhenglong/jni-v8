@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.util.Log;
+import android.content.res.AssetManager;
 
 
 public class HelloJni extends Activity
@@ -34,9 +35,14 @@ public class HelloJni extends Activity
          * function.
          */
         TextView  tv = new TextView(this);
+		loadAssetManager(getAssets());
         tv.setText( String.valueOf(add(1,1)));
         setContentView(tv);
     }
+
+	public native void loadAssetManager(AssetManager manager);
+
+	public native void unloadAssetManager();
 
     /* A native method that is implemented by the
      * 'hello-jni' native library, which is packaged
