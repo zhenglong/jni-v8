@@ -24,28 +24,12 @@ LOCAL_MODULE := libv8_libplatform
 LOCAL_SRC_FILES := ./third_parties/lib/libv8_libplatform.a
 include $(PREBUILT_STATIC_LIBRARY)
 
-LOCAL_PATH := $(MY_LOCAL_PATH)/foo
-include $(CLEAR_VARS)
-LOCAL_MODULE := myfoo
-LOCAL_SRC_FILES := MyFoo.cpp
-LOCAL_STATIC_LIBRARIES := libv8_base libv8_libplatform libv8_libbase libv8_nosnapshot 
-LOCAL_CPPFLAGS := \
-	-Wall \
-	-Wextra \
-	-fPIC \
-	-fvisibility=hidden \
-	-std=c++11 \
-	-fexceptions \
-	-frtti
-LOCAL_C_INCLUDES := $(MY_LOCAL_PATH)/third_parties $(MY_LOCAL_PATH)/third_parties/include
-include $(BUILD_SHARED_LIBRARY)
-
 $(info $(MY_LOCAL_PATH))
 LOCAL_PATH := $(MY_LOCAL_PATH)
 include $(CLEAR_VARS)
 LOCAL_MODULE := hello-jni
-LOCAL_SRC_FILES := my-jni.cpp NativeHttpCallback.cpp
-LOCAL_SHARED_LIBRARIES := myfoo
+LOCAL_SRC_FILES := foo/MyFoo.cpp JsLoader.cpp my-jni.cpp NativeHttpCallback.cpp
+LOCAL_STATIC_LIBRARIES := libv8_base libv8_libplatform libv8_libbase libv8_nosnapshot
 LOCAL_CPPFLAGS := \
 	-Wall \
 	-Wextra \
@@ -54,8 +38,8 @@ LOCAL_CPPFLAGS := \
 	-std=c++11 \
 	-fexceptions \
 	-frtti
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/foo
-LOCAL_LDLIBS := -L$(SYSROOT)/usr/lib -llog
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/foo $(MY_LOCAL_PATH)/third_parties $(MY_LOCAL_PATH)/third_parties/include
+LOCAL_LDLIBS := -L$(SYSROOT)/usr/lib -llog -landroid
 include $(BUILD_SHARED_LIBRARY)
 
 $(info $(MY_LOCAL_PATH))

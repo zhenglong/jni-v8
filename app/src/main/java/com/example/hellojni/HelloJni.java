@@ -24,6 +24,9 @@ import android.content.res.AssetManager;
 
 public class HelloJni extends Activity
 {
+
+    private static final String LOG_TAG = HelloJni.class.getName();
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -35,8 +38,10 @@ public class HelloJni extends Activity
          * function.
          */
         TextView  tv = new TextView(this);
+        Log.d(LOG_TAG, "on create");
 		loadAssetManager(getAssets());
-        tv.setText( String.valueOf(add(1,1)));
+        tv.setText( String.valueOf(add(100,200)));
+        unloadAssetManager();
         setContentView(tv);
     }
 

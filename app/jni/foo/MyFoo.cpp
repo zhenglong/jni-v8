@@ -6,6 +6,9 @@
 
 #include "v8.h"
 #include "libplatform/libplatform.h"
+
+#include "../JsLoader.h"
+
 using namespace v8;
 using namespace std;
 
@@ -47,7 +50,8 @@ double MyFoo::bar(double i, double j) {
         Handle<Context> context = Context::New(isolate, NULL, globalTemplate);
         Context::Scope context_scope(context);
 
-        string s = "function add(i,j) { return (i*j); }";
+        JsLoader jsLoader;
+        string s = jsLoader.ReadFile("index.js");
         Handle<String> source = String::NewFromUtf8(isolate, s.c_str());
         Handle<Script> script = Script::Compile(source);
         script->Run();

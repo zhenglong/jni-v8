@@ -6,14 +6,22 @@
  */
 
 #include "JsLoader.h"
-#include <android/asset_manage_jni.h>
+#include "my-log.h"
+#include <android/asset_manager_jni.h>
 
-string JsLoader::ReadFile(JNIEnv* env, const string& path) {
-	auto mgr = AAssetManager_fromJava(env, JsLoader.AssetManager);
-	auto asset = AAssetManager_open(mgr, path.c_str(), 0);
-	auto buffer = AAsset_getBuffer(asset);
+#define LOG_TAG "JsLoader"
+
+jobject JsLoader::AssetManager = NULL;
+JNIEnv* JsLoader::env = NULL;
+
+string JsLoader::ReadFile(const string& path) {
+	auto mgr = AAssetManager_fromJava(JsLoader::env, JsLoader::AssetManager);
+	auto asset = AAssetManager_open(mgr, path.c_str(), AASSET_MODE_BUFFER);
+    auto len = AAsset_getLength(asset);
+	char* buffer = new char[len];
+	int res = AAsset_read(asset, buffer, len);
+	LOGD(LOG_TAG, "%d", res);
 	AAsset_close(asset);
-	return new string(buffer)
+    string str(buffer);
+	return str;
 }
-
-

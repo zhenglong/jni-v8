@@ -31,12 +31,12 @@ NativeHttpCallback* getNativeHttpCallback(long nativeRef) {
 
 extern "C"
 JNIEXPORT jdouble JNICALL Java_com_example_hellojni_HelloJni_add(JNIEnv* env, jobject thiz, jdouble i, jdouble j) {
-    //MyFoo inst;
-    //return inst.bar(i, j);
-    //
-    
-	callJavaHttpGet(env, "http://www.test.com/api/foobar");
-	return 1;
+    JsLoader::env = env;
+    MyFoo inst;
+    return inst.bar(i, j);
+
+	//callJavaHttpGet(env, "http://www.test.com/api/foobar");
+	//return 1;
 
     //
     // MyFoo* inst = create_myfoo();
@@ -50,7 +50,7 @@ JNIEXPORT void JNICALL Java_com_example_hellojni_HttpCallback_nativeDestroy
   (JNIEnv *env, jobject thiz, jlong nativeRef) {
     auto obj = getNativeHttpCallback(nativeRef);
     delete obj;
-    LOGD("delete:%d", nativeRef);
+    LOGD(LOG_TAG, "delete:%ld", nativeRef);
 }
 
 
@@ -66,7 +66,7 @@ JNIEXPORT void JNICALL Java_com_example_hellojni_HttpCallback_native_1onSuccess
   (JNIEnv *env, jobject thiz, jlong nativeRef, jshort httpStatus, jstring data) {
     auto obj = getNativeHttpCallback(nativeRef);
     auto dataStr = env->GetStringUTFChars(data, 0);
-	LOGD("status: %d, data: %s", httpStatus, dataStr);
+	LOGD(LOG_TAG, "status: %d, data: %s", httpStatus, dataStr);
     obj->onSuccess(httpStatus, dataStr);
     env->ReleaseStringUTFChars(data, dataStr);
 }
@@ -74,7 +74,7 @@ JNIEXPORT void JNICALL Java_com_example_hellojni_HttpCallback_native_1onSuccess
 extern "C"
 JNIEXPORT void JNICALL Java_com_example_hellojni_HelloJni_loadAssetManager
 	(JNIEnv *env, jobject thiz, jobject assetManager) {
-	JsLoader::AssetManager = env->newGlobalRef(assetManager);
+	JsLoader::AssetManager = env->NewGlobalRef(assetManager);
 }
 
 extern "C"
@@ -82,6 +82,7 @@ JNIEXPORT void JNICALL Java_com_example_hellojni_HelloJni_unloadAssetManager
   (JNIEnv *env, jobject thiz) {
 	if (NULL != JsLoader::AssetManager) {
 		env->DeleteGlobalRef(JsLoader::AssetManager);
-		JJsLoader::AssetManager = NULL;
+		JsLoader::AssetManager = NULL;
+        JsLoader::env = NULL;
 	}
 }

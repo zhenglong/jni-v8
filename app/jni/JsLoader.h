@@ -7,12 +7,14 @@
 
 #ifndef JSLOADER_H
 #define JSLOADER_H
+#include <jni.h>
 #include <string>
 using namespace std;
 
 class JsLoader {
     public:
 		static jobject AssetManager;
+        static JNIEnv* env;
         string ReadFile(const string& path);
 };
 
