@@ -16,6 +16,7 @@
 package com.example.hellojni;
 
 import android.app.Activity;
+import android.os.PersistableBundle;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,7 +46,49 @@ public class HelloJni extends Activity
         setContentView(tv);
     }
 
-	public native void loadAssetManager(AssetManager manager);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(LOG_TAG, "on start");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(LOG_TAG, "onSaveInstanceState 2");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        Log.d(LOG_TAG, "onSaveInstanceState 1");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(LOG_TAG, "on stop");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(LOG_TAG, "on restart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "on resume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(LOG_TAG, "on pause");
+    }
+
+    public native void loadAssetManager(AssetManager manager);
 
 	public native void unloadAssetManager();
 

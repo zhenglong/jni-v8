@@ -31,9 +31,10 @@ NativeHttpCallback* getNativeHttpCallback(long nativeRef) {
 
 extern "C"
 JNIEXPORT jdouble JNICALL Java_com_example_hellojni_HelloJni_add(JNIEnv* env, jobject thiz, jdouble i, jdouble j) {
-    JsLoader::env = env;
-    MyFoo inst;
-    return inst.bar(i, j);
+    //JsLoader::env = env;
+    //MyFoo inst;
+    //return inst.bar(i, j);
+    return 100;
 
 	//callJavaHttpGet(env, "http://www.test.com/api/foobar");
 	//return 1;
