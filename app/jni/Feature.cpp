@@ -1,16 +1,19 @@
-#include "MyFoo.h"
+#include "Feature.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <cstring>
 #include <string>
 
-#include "v8.h"
-#include "libplatform/libplatform.h"
-
 #include "../JsLoader.h"
+#include "../my-log.h"
+
+#define LOG_TAG "Feature"
 
 using namespace v8;
 using namespace std;
+
+bool Feature::_initialized = false;
+Platform* Feature::_platform = NULL;
 
 class ShellArrayBufferAllocator : public ArrayBuffer::Allocator {
  public:
@@ -30,20 +33,37 @@ CallJsFunction(Isolate* isolate, Handle<v8::Object> global, string funcName, Han
     js_result = func->Call(global, argCount, argList);
     return js_result;
 }
-void AddNumberToArguments(Isolate* isolate, double num, Handle<Value> argList[], unsigned int argPos) {
+void
+AddNumberToArguments(Isolate* isolate, double num, Handle<Value> argList[], unsigned int argPos) {
     argList[argPos] = v8::Number::New(isolate, num);
 }
 
-double MyFoo::bar(double i, double j) {
-    double result = 0;
+void
+Feature::InitializeV8() {
+	if (Feature::_initialized) return;
+
 	Platform* platform = platform::CreateDefaultPlatform();
     V8::InitializePlatform(platform);
     V8::Initialize();
+}
+
+void
+Feature::DestroyV8() {
+    V8::Dispose();
+    V8::ShutdownPlatform();
+    delete Feature::_platform;
+    Feature::_platform = NULL;
+    Feature::_initialized = false;
+}
+
+double
+Feature::Add(double i, double j) {
+    double result = 0;
     ShellArrayBufferAllocator array_buffer_allocator;
     v8::Isolate::CreateParams create_params;
     create_params.array_buffer_allocator = &array_buffer_allocator;
 
-    Isolate* isolate = Isolate::New(create_params);
+    auto isolate = Isolate::New(create_params);
     {
         HandleScope handle_scope(isolate);
         Handle<ObjectTemplate> globalTemplate = ObjectTemplate::New(isolate);
@@ -63,8 +83,5 @@ double MyFoo::bar(double i, double j) {
         result = num->Value();
     }
     isolate->Dispose();
-    V8::Dispose();
-    V8::ShutdownPlatform();
-    delete platform;
 	return result;
 }

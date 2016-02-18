@@ -28,7 +28,7 @@ $(info $(MY_LOCAL_PATH))
 LOCAL_PATH := $(MY_LOCAL_PATH)
 include $(CLEAR_VARS)
 LOCAL_MODULE := hello-jni
-LOCAL_SRC_FILES := foo/MyFoo.cpp JsLoader.cpp my-jni.cpp NativeHttpCallback.cpp
+LOCAL_SRC_FILES := Feature.cpp JsLoader.cpp my-jni.cpp NativeHttpCallback.cpp
 LOCAL_STATIC_LIBRARIES := libv8_base libv8_libplatform libv8_libbase libv8_nosnapshot
 LOCAL_CPPFLAGS := \
 	-Wall \

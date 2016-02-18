@@ -31,19 +31,12 @@ NativeHttpCallback* getNativeHttpCallback(long nativeRef) {
 
 extern "C"
 JNIEXPORT jdouble JNICALL Java_com_example_hellojni_HelloJni_add(JNIEnv* env, jobject thiz, jdouble i, jdouble j) {
-    //JsLoader::env = env;
-    //MyFoo inst;
-    //return inst.bar(i, j);
-    return 100;
+    JsLoader::env = env;
+    Feature inst;
+    return inst.Add(i, j);
 
 	//callJavaHttpGet(env, "http://www.test.com/api/foobar");
 	//return 1;
-
-    //
-    // MyFoo* inst = create_myfoo();
-    // double result = bar_myfoo(inst, 1, 1);
-    // destroy_myfoo(inst);
-    // return result;
 }
 
 extern "C"
@@ -86,4 +79,15 @@ JNIEXPORT void JNICALL Java_com_example_hellojni_HelloJni_unloadAssetManager
 		JsLoader::AssetManager = NULL;
         JsLoader::env = NULL;
 	}
+}
+
+jint JNI_OnLoad(JavaVM* vm, void* reserved) {
+    LOGD(LOG_TAG, "jni onload");
+    Feature::InitializeV8();
+    return JNI_VERSION_1_6;
+}
+
+void JNI_OnUnload(JavaVM* vm, void* reserved) {
+    LOGD(LOG_TAG, "jni unload");
+    Feature::DestroyV8();
 }

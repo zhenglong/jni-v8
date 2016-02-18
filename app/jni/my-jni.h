@@ -3,7 +3,7 @@
 
 #include <jni.h>
 #include "my-log.h"
-#include "MyFoo.h"
+#include "Feature.h"
 
 #define LOG_TAG "myjni.debug"
 
