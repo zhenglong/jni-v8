@@ -6,6 +6,8 @@
  */
 
 #include "JsLoader.h"
+#include <cstring>
+
 #include "my-log.h"
 #include <android/asset_manager_jni.h>
 
@@ -18,7 +20,8 @@ string JsLoader::ReadFile(const string& path) {
 	auto mgr = AAssetManager_fromJava(JsLoader::env, JsLoader::AssetManager);
 	auto asset = AAssetManager_open(mgr, path.c_str(), AASSET_MODE_BUFFER);
     auto len = AAsset_getLength(asset);
-	char* buffer = new char[len];
+	char* buffer = new char[len+1];
+	memset(buffer, 0, sizeof(char)*(len+1));
 	int res = AAsset_read(asset, buffer, len);
 	LOGD(LOG_TAG, "%d", res);
 	AAsset_close(asset);

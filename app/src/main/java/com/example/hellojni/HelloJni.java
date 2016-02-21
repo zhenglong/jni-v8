@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.os.PersistableBundle;
 import android.widget.TextView;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.content.res.AssetManager;
 
@@ -39,10 +40,19 @@ public class HelloJni extends Activity
          * function.
          */
         TextView  tv = new TextView(this);
-        Log.d(LOG_TAG, "on create");
+        Log.d(LOG_TAG, "on create" + String.valueOf(Thread.currentThread().getId()));
+		Debug.startMethodTracing("jniTest");
 		loadAssetManager(getAssets());
-        tv.setText( String.valueOf(add(100,200)));
+		double m = 400;
+		double n = 200;
+		double res = add(m,n);
+		for (int i = 0; i < 100; i++) {
+			Log.d(LOG_TAG, "i=" + String.valueOf(i) + "res=" + String.valueOf(res));
+			res = add(m, n);
+		}
         unloadAssetManager();
+        Debug.stopMethodTracing();
+        tv.setText(String.valueOf(res));
         setContentView(tv);
     }
 
@@ -105,7 +115,7 @@ public class HelloJni extends Activity
      */
     static {
         // System.loadLibrary("v8");
-        Log.d("HelloJni", "after v8");
+        Log.d("HelloJni", "after v8" + String.valueOf(Thread.currentThread().getId()));
         System.loadLibrary("hello-jni");
     }
 }
